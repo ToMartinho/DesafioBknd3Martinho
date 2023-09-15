@@ -9,11 +9,11 @@ app.use(express.urlencoded({extended: true}))
 // TRAER TODOS LOS PRODUCTOS
 app.get('/products',async(req,res)=>{
     try {
-        const products = await productsManager.getProducts()
+        const products = await productsManager.getProducts(req.query)
         if(!products.length){
-            res.status(200).json({message:'No users found'})
+            res.status(200).json({message:'No Product found'})
         }else{
-            res.status(200).json({message:'Users found', products})
+            res.status(200).json({message:'Product found', products})
         }
 
 

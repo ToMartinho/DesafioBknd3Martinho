@@ -6,11 +6,20 @@ class ProductManager{
     }
 
     // obtener los productos del archivo si es que existen 
-    async getProducts(){
+    async getProducts(queryObj){
+
+        const {limit} = queryObj        
         try {
             if(fs.existsSync(this.path)){
                 const info = await fs.promises.readFile(this.path,'utf-8')
-                return JSON.parse(info)
+                const infoParsed = JSON.parse(info)
+
+                const limitNumber = +limit
+                if(isNaN(limitNumber) || limitNumber <=0){                    
+                    return infoParsed
+                }else{                    
+                    return infoParsed.slice(0, limitNumber)
+                }
             }else{
                 return []
             }
@@ -45,7 +54,7 @@ class ProductManager{
     async getProductById(idProduct){
         try {
             // traemos todo el arreglo con los productos
-            const products = await this.getProducts()
+            const products = await this.getProducts({})
             const productoBuscado = products.find(p=>p.id === idProduct)
             return productoBuscado
         } catch (error) {
