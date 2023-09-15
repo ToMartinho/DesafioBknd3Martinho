@@ -32,7 +32,7 @@ class ProductManager{
     async createProduct(obj){
         try {
             // traemos todo el arreglo con los productos
-            const products = await this.getProducts()
+            const products = await this.getProducts({})
             // generamos el id auto incrementable
             let id
             if(!products.length){
